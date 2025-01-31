@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Enums\Shipments\LocationEnum;
+use App\Enums\Shipments\SizeEnum;
+use App\Enums\Shipments\StatusEnum;
 use App\Models\Shipments;
 use App\Repositories\ShipmentRepository;
 use App\Repositories\UserRepository;
@@ -52,6 +55,30 @@ class ShipmentService
         }while($exists);
 
         return $trackingNumber;
+    }
+
+    public function getShipmentByTrackingNumber(array $data): array
+    {
+        $tracking_number = $data['tracking_number'];
+        $shipment = $this->shipmentRepository->getShipmentByTrackingNumber($tracking_number);
+
+        if(!$shipment){
+            return [];
+        }
+
+        $formatedShipment = [
+            'Tracking Number' => $shipment['tracking_number'],
+            'Status' => StatusEnum::from($shipment['status'])->getStatusName(),
+            'Size' => SizeEnum::from($shipment['size'])->getSizeName(), 
+            'Created At' => $shipment['created_at'],
+            'Updated At' => $shipment['updated_at'],
+            'Location From' => LocationEnum::from($shipment['location_from'])->getCityName(),
+            'Location To' => LocationEnum::from($shipment['location_to'])->getCityName(),  
+            'Delivery Info' => $shipment['delivery_info'],
+            'Note' => $shipment['note']
+        ];
+
+        return $formatedShipment;
     }
 
     private function sendShipmentEmail($userEmail, $trackingNumber): void

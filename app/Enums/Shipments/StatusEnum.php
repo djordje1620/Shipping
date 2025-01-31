@@ -12,10 +12,10 @@ enum StatusEnum : int
     public function getStatusName(): string
     {
         return match ($this){
-            self::SENT => 'Poslato',
-            self::RECEIVED => 'Primljeno',
-            self::DENIED => 'Odbijeno',
-            self::RETURNED => 'Vraćeno',
+            self::SENT => 'SENT',
+            self::RECEIVED => 'RECEIVED',
+            self::DENIED => 'DENIED',
+            self::RETURNED => 'RETURNED',
         };
     }
 }

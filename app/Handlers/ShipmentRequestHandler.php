@@ -11,7 +11,7 @@ class ShipmentRequestHandler extends BaseHandler
     {
         $authMIddleware = new AuthMiddleware();
         $authMIddleware->handle();
-        
+
         $data = $this->getRequestData();
 
         if(!isset($data['type'])){
@@ -30,12 +30,23 @@ class ShipmentRequestHandler extends BaseHandler
                 $response = $shipmentController->delete($data);
                 $redirectTo = "index.php";
                 break;
+            case 'check':
+                $response = $shipmentController->getShipmentByTrackingNumberAction($data);
+                $redirectTo = "";
+                break;
             default:
                 throw new \Exception("Invalid type!");
         }
 
         if($response) {
-            $this->redirect("../../$redirectTo");
+            if($redirectTo!=""){
+                $this->redirect("../../$redirectTo");
+            }else{
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'response' => $response
+                ]);
+            }
         }else{
             $this->redirect($_SERVER['HTTP_REFERER']);
         }

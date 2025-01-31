@@ -99,21 +99,4 @@ class Shipments
         return $this->deliveryInfo;
     }
 
-
-
-//    public function getShipmentById(int $id): array
-//    {
-//        $stmt = $this->getDb()->prepare("SELECT * FROM shipments WHERE id = :id");
-//        $stmt->bindParam(':id', $id);
-//        $stmt->execute();
-//
-//        return $stmt->fetch(\PDO::FETCH_ASSOC);
-//    }
-
-//    public function delete(int $id): void
-//    {
-//        $stmt = $this->getDb()->prepare("DELETE FROM shipments WHERE id = :id");
-//        $stmt->bindParam(':id', $id);
-//        $stmt->execute();
-//    }
 }

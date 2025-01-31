@@ -7,6 +7,7 @@ use App\Models\Shipments;
 use App\Services\ShipmentService;
 use App\Validators\Shipments\CreateShipmentValidator;
 use App\Validators\Shipments\DeleteShipmentValidator;
+use App\Validators\Shipments\TrackingNumberValidator;
 use http\Params;
 
 class ShipmentController
@@ -46,4 +47,29 @@ class ShipmentController
 
 
     }
+
+    public function getShipmentByTrackingNumberAction(array $data): array
+    {
+        $validator = new TrackingNumberValidator();
+        $response = [];
+
+        if (!$validator->validateData($data)) {
+            $response['status'] = "error";
+            $response['message'] = $validator->getErrors();
+            return $response;
+        }
+
+        $shipment = $this->shipmentService->getShipmentByTrackingNumber($data);
+
+        if ($shipment === []) {
+            $response['status'] = "error";
+            $response['message'] = 'Shipment is not found.';
+            return $response;
+        }
+
+        return $shipment;
+    }
+
+
+
 }

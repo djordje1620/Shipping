@@ -28,49 +28,38 @@ require_once "vendor/autoload.php";
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Shipment Details: (<?= $shipments[0]['first_name']?> <?= $shipments[0]['last_name'] ?>)</h2>
-    <table class="table table-striped table-bordered table-hover">
-        <thead class="thead-dark">
-        <tr>
-            <th>Tracking number</th>
-            <th>Status</th>
-            <th>Size</th>
-            <th>Location From</th>
-            <th>Location To</th>
-            <th>Method</th>
-            <th>Note</th>
-            <th>Delivery Information</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($shipments as $shipment): ?>
-            <tr>
-                <td><?= $shipment['tracking_number'] ?></td>
-                <td><?= StatusEnum::from($shipment['status'])->getStatusName() ?></td>
-                <td><?= SizeEnum::from($shipment['size'])->getSizeName()  ?></td>
-                <td><?= LocationEnum::from($shipment['location_from'])->getCityName() ?></td>
-                <td><?= LocationEnum::from($shipment['location_to'])->getCityName() ?></td>
-                <td><?= $shipment['method']?></td>
-                <td><?= $shipment['note'] ?></td>
-                <td><?= $shipment['delivery_info'] ?></td>
-                <td><?= $shipment['created_at'] ?></td>
-                <td><?= $shipment['updated_at'] ?></td>
-                <td>
-                    <a href="app/Handlers/ShipmentHandler.php?id=<?=$shipment['id'] ?>&type=delete" class="btn btn-danger">Remove</a>
-                </td>
+    <h2 class="text-center mb-4">Shipment Details: <span class="font-weight-bold"><?= $shipments[0]['first_name']?> <?= $shipments[0]['last_name'] ?></span></h2>
 
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-light">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">Enter Tracking Number</h5>
+
+                    <div class="input-group mb-3">
+                        <input type="text" name="tracking_number" id="tracking_number" value="78043988" class="form-control" placeholder="Enter Tracking Number" />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" id="check_tn" name="send_tn">Check</button>
+                        </div>
+                    </div>
+
+                    <p id="message" class="text-center text-danger"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="shipment-details" class="mt-5">
+    </div>
+
 </div>
-       
+
+
+    <script src="public/js/trackShipment.js"></script>
 </body>
 </html>
 

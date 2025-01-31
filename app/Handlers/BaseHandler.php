@@ -39,6 +39,10 @@ abstract class BaseHandler implements IRequestHandler
     {
         switch ($_SERVER['REQUEST_METHOD']){
             case 'POST':
+                if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
+                    $data = file_get_contents('php://input');
+                    return json_decode($data, true);
+                }
                 return $_POST;
                 break;
             case 'GET':

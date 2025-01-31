@@ -38,6 +38,7 @@ class BaseValidator
             'email' => filter_var($value, FILTER_VALIDATE_EMAIL),
             'min_length' => strlen($value) >= (int)$parameter,
             'max_length' => strlen($value) <= (int)$parameter,
+            'valid_length' => strlen($value) == (int)$parameter,
             'email_exists' => $this->customRule('email_exists', $value),
             default => false,
         };
@@ -54,7 +55,6 @@ class BaseValidator
     }
 
 
-
     protected function getErrorMessage(string $field, string $rule): string
     {
         $ruleName = explode(':', $rule)[0];
@@ -63,6 +63,7 @@ class BaseValidator
             'email' => "The $field must be a valid email address.",
             'min_length' => "The $field must be at least {$this->getRuleParameter($rule)} characters long.",
             'max_length' => "The $field must be at most {$this->getRuleParameter($rule)} characters long.",
+            'valid_length' => "The $field must be exactly {$this->getRuleParameter($rule)} characters.",
             default => "",
         };
     }

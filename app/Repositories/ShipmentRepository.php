@@ -49,4 +49,13 @@ class ShipmentRepository
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function getShipmentByTrackingNumber(string $tracking_number): mixed
+    {
+        $stmt = $this->mySql->getDb()->prepare("SELECT * FROM shipments WHERE tracking_number = :tracking_number");
+        $stmt->bindParam(':tracking_number', $tracking_number);
+        $stmt->execute();
+
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
 }
