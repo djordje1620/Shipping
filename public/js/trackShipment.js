@@ -42,7 +42,7 @@ $(document).ready(function() {
 
 function displayShipmentDetails(shipment) {
     console.log(shipment);
-    if (shipment) {
+    if (shipment['status'] !== 'error') {
         const shipmentDetailsHTML = `
             <div class="container mt-4">
                 <div class="card">
@@ -90,7 +90,7 @@ function displayShipmentDetails(shipment) {
         `;
         document.getElementById("shipment-details").innerHTML = shipmentDetailsHTML;
     } else {
-        document.getElementById("shipment-details").innerHTML = "<p>No shipment found.</p>";
+        document.getElementById("shipment-details").innerHTML = "";
     }
 }
 

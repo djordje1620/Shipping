@@ -8,7 +8,6 @@ use App\Services\ShipmentService;
 use App\Validators\Shipments\CreateShipmentValidator;
 use App\Validators\Shipments\DeleteShipmentValidator;
 use App\Validators\Shipments\TrackingNumberValidator;
-use http\Params;
 
 class ShipmentController
 {
@@ -42,10 +41,8 @@ class ShipmentController
         if($shipment === null || $shipment['user_id'] !== $this->session->flash('User')){
            return  false;
         }
-        $this->shipments->delete($data['id']);
+        $this->shipmentService->delete($data['id']);
         return true;
-
-
     }
 
     public function getShipmentByTrackingNumberAction(array $data): array
@@ -59,7 +56,8 @@ class ShipmentController
             return $response;
         }
 
-        $shipment = $this->shipmentService->getShipmentByTrackingNumber($data);
+        $id = $this->session->get('User');
+        $shipment = $this->shipmentService->getShipmentByTrackingNumber($data, $id);
 
         if ($shipment === []) {
             $response['status'] = "error";

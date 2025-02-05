@@ -57,10 +57,11 @@ class ShipmentService
         return $trackingNumber;
     }
 
-    public function getShipmentByTrackingNumber(array $data): array
+    public function getShipmentByTrackingNumber(array $data, int $id): array
     {
         $tracking_number = $data['tracking_number'];
-        $shipment = $this->shipmentRepository->getShipmentByTrackingNumber($tracking_number);
+        $user_id = $id;
+        $shipment = $this->shipmentRepository->getShipmentByTrackingNumber($tracking_number, $user_id);
 
         if(!$shipment){
             return [];
