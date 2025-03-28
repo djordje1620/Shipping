@@ -7,7 +7,7 @@ use \App\Enums\Shipments\LocationEnum;
 use App\Middleware\AuthMiddleware;
 use App\Models\ShipmentMethod;
 
-require_once "vendor/autoload.php";
+require_once "../vendor/autoload.php";
 
 $session = new Session();
 
@@ -26,10 +26,16 @@ $locations = LocationEnum::cases();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Shipment Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+
+    <?php
+        require_once "fixed/navbar.php";
+    ?>
+
     <div class="container mt-5">
         <h2>Shipment Entry Form</h2>
         <?php if($session->hasKey('form_validation_error')): ?>
@@ -37,7 +43,7 @@ $locations = LocationEnum::cases();
                 <?=$session->get('form_validation_error') ?>
             </p>
         <?php endif; ?>
-        <form method="post" action="app/Handlers/ShipmentHandler.php">
+        <form method="post" action="../app/Handlers/ShipmentHandler.php">
             <div class="form-group">
                 <label for="size">Size</label>
                 <select class="form-control" id="size" name="size">

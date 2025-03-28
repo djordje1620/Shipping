@@ -15,7 +15,7 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: "app/Handlers/ShipmentHandler.php",
+            url: "../app/Handlers/ShipmentHandler.php",
             type: "POST",
             contentType: "application/json",
             dataType: 'json',

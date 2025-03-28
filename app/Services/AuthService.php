@@ -32,6 +32,7 @@ class AuthService
 
         $this->session->set("LoggedIn", true);
         $this->session->set("User", $user['id']);
+        $this->session->set("UserName", $user['first_name']);
         $this->session->set("Role", $user['role_id']);
         return true;
     }
@@ -39,7 +40,10 @@ class AuthService
     public function logout(): bool
     {
         $this->session->delete("LoggedIn");
+        $this->session->delete("UserName");
         $this->session->delete("User");
+        $this->session->delete("Role");
+
         return true;
     }
 }

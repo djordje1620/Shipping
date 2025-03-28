@@ -26,19 +26,19 @@ class UserRequestHandler extends BaseHandler
                 break;
             case "login":
                 $response = $userController->login($data);
-                $redirectTo = $this->isAdmin() ? "admin-panel.php" : "user.php";
+                $redirectTo = $this->isAdmin() ? "admin-panel.php" : "index.php";
                 break;
             case "logout":
                 $authMiddleware->handle();
                 $response = $userController->logout();
-                $redirectTo = "login.php";
+                $redirectTo = "index.php";
                 break;
             default:
                 throw new \Exception("Invalid type");
         }
 
         if($response){
-            $this->redirect("../../$redirectTo");
+            $this->redirect("../../views/$redirectTo");
         }else{
             $this->redirect($_SERVER['HTTP_REFERER']);
         }

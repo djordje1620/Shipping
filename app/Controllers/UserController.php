@@ -41,8 +41,7 @@ class UserController
             return false;
         }
 
-        $this->authService->login($data['email'], $data['password']);
-        return true;
+        return $this->authService->login($data['email'], $data['password']);
     }
 
     public function logout(): bool

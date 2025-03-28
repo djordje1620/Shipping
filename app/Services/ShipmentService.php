@@ -14,10 +14,12 @@ class ShipmentService
 {
     private ShipmentRepository $shipmentRepository;
     private UserRepository $userRepository;
+    private readonly  MailService $mailService;
     public function __construct()
     {
         $this->shipmentRepository = new ShipmentRepository();
         $this->userRepository = new UserRepository();
+        $this->mailService = new MailService();
     }
     public function create(int $userId, array $data): bool
     {
@@ -41,7 +43,7 @@ class ShipmentService
         if($saved)
         {
             $userEmail = $this->userRepository->getUserEmailById($userId);
-            $this->sendShipmentEmail($userEmail, $trackingNumber);
+            $this->sendShipmentEmail($userEmail['email'], $trackingNumber);
         }
 
         return  $saved;
@@ -84,29 +86,9 @@ class ShipmentService
 
     private function sendShipmentEmail($userEmail, $trackingNumber): void
     {
-        $mail = new PHPMailer(true);
-        try {
-            // Server settings
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = '';
-            $mail->Password = '';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $subject = 'Your Shipment Tracking Number: '.$trackingNumber;
+            $body    = "Hello,<br><br>Your shipment has been created successfully. Your tracking number is <strong>{$trackingNumber}</strong>.<br>Thank you for using our service!<br><br>Best regards,<br>Your Company";
 
-            $mail->setFrom('no-reply@yourdomain.com', 'Your Company');
-            $mail->addAddress($userEmail);  
-
-            // Sadržaj emaila
-            $mail->isHTML(true);
-            $mail->Subject = 'Your Shipment Tracking Number';
-            $mail->Body    = "Hello,<br><br>Your shipment has been created successfully. Your tracking number is <strong>{$trackingNumber}</strong>.<br>Thank you for using our service!<br><br>Best regards,<br>Your Company";
-            $mail->AltBody = "Hello, Your shipment has been created successfully. Your tracking number is {$trackingNumber}. Thank you for using our service!";
-            
-            $mail->send();
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
+            $this->mailService->sendEmail($userEmail,$subject,$body);
     }
 }

@@ -2,10 +2,10 @@
 
 use App\Services\CityService;
 
-require_once "vendor/autoload.php";
+require_once "../vendor/autoload.php";
 $session = new \App\Config\Session();
 if($session->hasKey('User')){
-    header('Location: user.php');
+    header('Location: index.php');
 }
 
 $cityService = new CityService();
@@ -20,7 +20,8 @@ $cityService = new CityService();
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
         .form-container {
             width: 30%;
@@ -30,8 +31,11 @@ $cityService = new CityService();
     </style>
 </head>
 <body>
+<?php
+require_once "fixed/navbar.php";
+?>
 <div class="container form-container">
-    <form method="POST" action="app/Handlers/UserHandler.php" class="p-4 shadow rounded bg-light">
+    <form method="POST" action="../app/Handlers/UserHandler.php" class="p-4 shadow rounded bg-light">
         <h2>Register</h2>
         <?php if ($session->hasKey('form_validation_error')): ?>
             <div class="danger text-danger">
