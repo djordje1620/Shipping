@@ -40,7 +40,7 @@ class ShipmentRequestHandler extends BaseHandler
 
         if($response) {
             if($redirectTo!=""){
-                $this->redirect("../../$redirectTo");
+                $this->redirect("../../views/$redirectTo");
             }else{
                 header('Content-Type: application/json');
                 echo json_encode([

@@ -28,7 +28,9 @@ class Session
 
     public function delete(string $key): void
     {
-        unset($_SESSION[$key]);
+        if (isset($_SESSION[$key])) {
+            unset($_SESSION[$key]);
+        }
     }
 
 

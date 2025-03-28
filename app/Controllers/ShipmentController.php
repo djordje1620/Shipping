@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Config\Session;
 use App\Models\Shipments;
+use App\Services\MailService;
 use App\Services\ShipmentService;
 use App\Validators\Shipments\CreateShipmentValidator;
 use App\Validators\Shipments\DeleteShipmentValidator;
@@ -13,6 +14,7 @@ class ShipmentController
 {
     private readonly Session $session;
     private readonly ShipmentService $shipmentService;
+
     public function __construct()
     {
         $this->session = new Session();
@@ -27,6 +29,7 @@ class ShipmentController
             return false;
         }
         return $this->shipmentService->create($this->session->get('User'), $data);
+
     }
     public function delete(array $data): bool
     {
@@ -67,7 +70,5 @@ class ShipmentController
 
         return $shipment;
     }
-
-
 
 }
